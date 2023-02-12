@@ -47,5 +47,6 @@ data class EventUpElementDto(
     val max: Double,
     val min: Double,
     val value: String,
-    val varType: String
+    val varType: String,
+    val type: String
 ): Serializable
