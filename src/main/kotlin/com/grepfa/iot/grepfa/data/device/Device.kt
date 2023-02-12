@@ -1,4 +1,4 @@
-package com.grepfa.iot.grepfa.device
+package com.grepfa.iot.grepfa.data.device
 
 import com.grepfa.iot.grepfa.network.Network
 import com.grepfa.iot.grepfa.profile.Profile

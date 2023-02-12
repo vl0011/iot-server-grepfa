@@ -1,5 +1,6 @@
-package com.grepfa.iot.grepfa.device
+package com.grepfa.iot.grepfa.data.device
 
+import com.grepfa.iot.grepfa.data.device.DeviceHandler
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.reactive.config.EnableWebFlux

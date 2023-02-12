@@ -1,4 +1,4 @@
-package com.grepfa.iot.grepfa.mqtt.grepfa
+package com.grepfa.iot.grepfa.mqtt.grepfa.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.eclipse.paho.client.mqttv3.MqttClient
@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.integration.dsl.StandardIntegrationFlow
-import org.springframework.integration.dsl.Transformers
 import org.springframework.integration.dsl.integrationFlow
 import org.springframework.integration.mqtt.core.DefaultMqttPahoClientFactory
 import org.springframework.integration.mqtt.core.MqttPahoClientFactory

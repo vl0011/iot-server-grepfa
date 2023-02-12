@@ -1,15 +1,14 @@
-package com.grepfa.iot.grepfa.device
+package com.grepfa.iot.grepfa.data.device
 
 import com.grepfa.iot.grepfa.network.NetworkDto
 import com.grepfa.iot.grepfa.profile.GetProfileDto
 import com.grepfa.iot.grepfa.profile.Profile
-import jakarta.persistence.EntityManager
 
 import java.io.Serializable
 import java.util.*
 
 /**
- * A DTO for the {@link com.grepfa.iot.grepfa.device.Device} entity
+ * A DTO for the {@link com.grepfa.iot.grepfa.data.device.Device} entity
  */
 data class DeviceDto(
     val id: UUID? = null,
