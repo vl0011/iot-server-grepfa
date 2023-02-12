@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component
 
 
 @Configuration
-class MqttConfig(private val sampleMessageHandler: SampleMessageHandler, private val objectMapper: ObjectMapper) {
+class MqttConfig {
     private val logger = LoggerFactory.getLogger(javaClass)
     @Bean
     fun mqttPahoClientFactory(): MqttPahoClientFactory { // (1)
@@ -97,14 +97,3 @@ class MqttConfig(private val sampleMessageHandler: SampleMessageHandler, private
     }
 
 }
-
-@Component
-class SampleMessageHandler { // (1)
-
-    private val log = LoggerFactory.getLogger(javaClass)
-
-    fun handle(message: SampleMessage) {
-        log.info("message arrived : $message")
-    }
-}
-data class SampleMessage(val title: String, val content: String)
