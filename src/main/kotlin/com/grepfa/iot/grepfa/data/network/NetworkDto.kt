@@ -1,4 +1,4 @@
-package com.grepfa.iot.grepfa.network
+package com.grepfa.iot.grepfa.data.network
 
 import java.io.Serializable
 import java.util.*

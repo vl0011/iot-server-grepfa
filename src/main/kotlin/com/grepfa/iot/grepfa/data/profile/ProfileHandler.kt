@@ -1,6 +1,6 @@
-package com.grepfa.iot.grepfa.profile
+package com.grepfa.iot.grepfa.data.profile
 
-import com.grepfa.iot.grepfa.part.CreatePartDto
+import com.grepfa.iot.grepfa.data.part.CreatePartDto
 import com.grepfa.iot.type.GResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.reactor.awaitSingle

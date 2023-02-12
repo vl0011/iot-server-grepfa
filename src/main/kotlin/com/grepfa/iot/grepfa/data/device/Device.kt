@@ -1,7 +1,7 @@
-package com.grepfa.iot.grepfa.device
+package com.grepfa.iot.grepfa.data.device
 
-import com.grepfa.iot.grepfa.network.Network
-import com.grepfa.iot.grepfa.profile.Profile
+import com.grepfa.iot.grepfa.data.network.Network
+import com.grepfa.iot.grepfa.data.profile.Profile
 import jakarta.persistence.*
 import org.hibernate.Hibernate
 import java.util.UUID

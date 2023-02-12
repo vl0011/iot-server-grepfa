@@ -1,4 +1,4 @@
-package com.grepfa.iot.grepfa.profile
+package com.grepfa.iot.grepfa.data.profile
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

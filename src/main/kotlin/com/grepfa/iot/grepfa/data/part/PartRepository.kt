@@ -1,4 +1,4 @@
-package com.grepfa.iot.grepfa.part
+package com.grepfa.iot.grepfa.data.part
 
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.repository.reactive.ReactiveCrudRepository

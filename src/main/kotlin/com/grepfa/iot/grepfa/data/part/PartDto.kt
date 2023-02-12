@@ -1,6 +1,6 @@
-package com.grepfa.iot.grepfa.part
+package com.grepfa.iot.grepfa.data.part
 
-import com.grepfa.iot.grepfa.profile.Profile
+import com.grepfa.iot.grepfa.data.profile.Profile
 import java.io.Serializable
 import java.util.*
 

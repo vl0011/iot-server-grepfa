@@ -1,6 +1,6 @@
-package com.grepfa.iot.grepfa.profile
+package com.grepfa.iot.grepfa.data.profile
 
-import com.grepfa.iot.grepfa.part.Part
+import com.grepfa.iot.grepfa.data.part.Part
 import jakarta.persistence.*
 import org.hibernate.Hibernate
 import java.util.*

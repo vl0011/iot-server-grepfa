@@ -1,4 +1,4 @@
-package com.grepfa.iot.grepfa.profile;
+package com.grepfa.iot.grepfa.data.profile;
 
 //import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories
 import org.springframework.data.jpa.repository.JpaRepository

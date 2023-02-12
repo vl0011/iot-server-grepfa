@@ -1,4 +1,4 @@
-package com.grepfa.iot.grepfa.network
+package com.grepfa.iot.grepfa.data.network
 
 import jakarta.persistence.*
 import java.util.*

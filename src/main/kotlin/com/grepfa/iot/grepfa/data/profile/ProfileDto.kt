@@ -1,8 +1,8 @@
-package com.grepfa.iot.grepfa.profile
+package com.grepfa.iot.grepfa.data.profile
 
 import com.grepfa.iot.exception.BadArgumentException
-import com.grepfa.iot.grepfa.part.CreatePartDto
-import com.grepfa.iot.grepfa.part.GetPartDto
+import com.grepfa.iot.grepfa.data.part.CreatePartDto
+import com.grepfa.iot.grepfa.data.part.GetPartDto
 import java.io.Serializable
 import java.util.*
 

@@ -1,8 +1,8 @@
-package com.grepfa.iot.grepfa.device
+package com.grepfa.iot.grepfa.data.device
 
-import com.grepfa.iot.grepfa.network.NetworkDto
-import com.grepfa.iot.grepfa.profile.GetProfileDto
-import com.grepfa.iot.grepfa.profile.Profile
+import com.grepfa.iot.grepfa.data.network.NetworkDto
+import com.grepfa.iot.grepfa.data.profile.GetProfileDto
+import com.grepfa.iot.grepfa.data.profile.Profile
 import jakarta.persistence.EntityManager
 
 import java.io.Serializable
