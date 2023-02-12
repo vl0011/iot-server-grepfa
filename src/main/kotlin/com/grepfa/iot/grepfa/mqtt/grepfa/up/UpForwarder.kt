@@ -12,6 +12,7 @@ import com.grepfa.iot.grepfa.mqtt.grepfa.TopicInfo
 import com.grepfa.iot.grepfa.mqtt.grepfa.up.dto.*
 import com.grepfa.iot.grepfa.part.GetPartDto
 import io.ktor.client.*
+import io.ktor.client.call.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.request.*
 import io.ktor.http.*
@@ -28,7 +29,7 @@ import java.util.*
 class UpForwarder(val repo: DeviceRepository, val om: ObjectMapper) {
     private val logger = LoggerFactory.getLogger(javaClass)
 
-    private val upForwardURL = "https://api.grepfa.com/iot/hook/up "
+    private val upForwardURL = "http://115.31.121.170:80"
 
     @OptIn(DelicateCoroutinesApi::class)
     fun handle(topicString: TopicInfo, payload: String) {
@@ -55,10 +56,12 @@ class UpForwarder(val repo: DeviceRepository, val om: ObjectMapper) {
             withContext(Dispatchers.IO) {
                 logger.info("start request")
                 val client = HttpClient(CIO)
-                client.post("upForwardURL") {
+                val resp = client.post(upForwardURL) {
                     contentType(ContentType.Application.Json)
                     setBody(retStr)
                 }
+                logger.info("status: ${resp.status}")
+                logger.info("body: ${resp.body<String>()}")
             }
         }
     }
@@ -70,7 +73,7 @@ class UpForwarder(val repo: DeviceRepository, val om: ObjectMapper) {
         val pList = raw.values.map {
             val p = GetPartDto(dbDev.profile.contains.find { b -> b.name == it.name }!!)
             EventUpElementDto(
-                p.name, p.summary, p.description, p.id!!, p.unit, p.max, p.min, it.value, p.varType
+                p.name, p.summary, p.description, p.id!!, p.unit, p.max, p.min, it.value, p.varType, p.type
             )
         }
 
@@ -103,7 +106,7 @@ class UpForwarder(val repo: DeviceRepository, val om: ObjectMapper) {
         }
 
         val pList = d.profile.contains.map {
-            EventUpElementDto(it.name, it.summary, it.description, it.id!!, it.unit, it.max, it.min, Random().nextInt(10).toString(), it.varType)
+            EventUpElementDto(it.name, it.summary, it.description, it.id!!, it.unit, it.max, it.min, Random().nextInt(10).toString(), it.varType, it.type)
         }
 
         return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).bodyValueAndAwait(
@@ -116,8 +119,8 @@ class UpForwarder(val repo: DeviceRepository, val om: ObjectMapper) {
         return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).bodyValueAndAwait(
             EventUpDto(
                 UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), "network address", "tcp_ip", listOf(
-                    EventUpElementDto("part name", "summary of part information", "description of part information", UUID.randomUUID(), "mm", 0.0, 0.0, "12", "integer"),
-                    EventUpElementDto("co2", "co2 sensor", "description of part information", UUID.randomUUID(), "ppm", 0.0, 0.0, "153.2", "float")
+                    EventUpElementDto("part name", "summary of part information", "description of part information", UUID.randomUUID(), "mm", 0.0, 0.0, "12", "integer", "actuator"),
+                    EventUpElementDto("co2", "co2 sensor", "description of part information", UUID.randomUUID(), "ppm", 0.0, 0.0, "153.2", "float", "sensor")
                 )
             )
         )
