@@ -51,7 +51,7 @@ class ProfileHandler(private val repository: ProfileRepository) {
     }
 
     suspend fun getExampleNewProfile(req: ServerRequest) : ServerResponse {
-        val ex = CreateProfileDto("hello", listOf(CreatePartDto("name", "sensor or actuator", "float or integer or string", "desc", "summary", 0.0, 100.0)))
+        val ex = CreateProfileDto("hello", listOf(CreatePartDto("name", "sensor or actuator", "float or integer or string", "desc", "summary", "mm", 0.0, 100.0)))
         return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).bodyValueAndAwait(
             GResponse(HttpStatus.OK.value(), "", ex)
         )

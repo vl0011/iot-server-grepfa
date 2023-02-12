@@ -13,6 +13,7 @@ data class CreatePartDto(
     val varType: String? = null,
     val description: String? = null,
     val summary: String? = null,
+    val unit: String? = null,
     val min: Double? = null,
     val max: Double? = null
 ) : Serializable {
@@ -23,6 +24,7 @@ data class CreatePartDto(
             varType = varType!!,
             description = description!!,
             summary = summary!!,
+            unit = unit!!,
             max = max!!,
             min = min!!
         )
@@ -38,6 +40,7 @@ class GetPartDto(part: Part) :Serializable {
     val varType = part.type
     val description = part.description
     val summary = part.summary
+    val unit = part.unit
     val min = part.min
     val max = part.max
 }

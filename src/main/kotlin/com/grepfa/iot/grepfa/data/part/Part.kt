@@ -24,9 +24,12 @@ data class Part (
     val type: String,
     val varType: String,
 
+
+
     val description: String,
     val summary: String,
 
+    val unit: String,
     val min: Double,
     val max: Double,
 ) {

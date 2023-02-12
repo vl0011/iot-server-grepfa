@@ -1,11 +1,16 @@
 package com.grepfa.iot.grepfa.mqtt.grepfa.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.grepfa.iot.grepfa.mqtt.grepfa.topicParser
 import org.eclipse.paho.client.mqttv3.MqttClient
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions
+import org.eclipse.paho.client.mqttv3.MqttMessage
 import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.integration.annotation.Router
+import org.springframework.integration.channel.PublishSubscribeChannel
+import org.springframework.integration.core.MessageProducer
 import org.springframework.integration.dsl.StandardIntegrationFlow
 import org.springframework.integration.dsl.integrationFlow
 import org.springframework.integration.mqtt.core.DefaultMqttPahoClientFactory
@@ -13,6 +18,8 @@ import org.springframework.integration.mqtt.core.MqttPahoClientFactory
 import org.springframework.integration.mqtt.inbound.MqttPahoMessageDrivenChannelAdapter
 import org.springframework.integration.mqtt.support.DefaultPahoMessageConverter
 import org.springframework.integration.mqtt.support.MqttHeaders
+import org.springframework.messaging.Message
+import org.springframework.messaging.MessageChannel
 import org.springframework.stereotype.Component
 
 
@@ -36,31 +43,41 @@ class MqttConfig {
             }
     }
 
+
     @Bean
-    fun mqttInboundFlow(): StandardIntegrationFlow {
-        return integrationFlow(mqttChannelAdapter()) { // (3)
-//            transform(Transformers.fromJson(SampleMessage::class.java)) // (4)
-            handle {
+    fun upChannel(): MessageChannel = PublishSubscribeChannel()
+    @Bean
+    fun unknownMethodChannel(): MessageChannel = mqttInputChannel()
+    @Bean
+    fun mqttInputChannel():MessageChannel = PublishSubscribeChannel()
 
-                val topic = it.headers[MqttHeaders.RECEIVED_TOPIC] as String
-//                sampleMessageHandler.handle(it.payload as SampleMessage) // (5)
 
-                logger.info(topic)
-                logger.info(it.payload as String)
-            }
-        }!!
+
+    @Router(inputChannel = "mqttInputChannel")
+    fun route(message: Message<MqttMessage>): MessageChannel {
+        val topic = message.headers[MqttHeaders.RECEIVED_TOPIC] as String
+        val t = topicParser(topic)
+        return if (t.method == "up")
+            upChannel()
+        else unknownMethodChannel()
     }
 
-    private fun mqttChannelAdapter(): MqttPahoMessageDrivenChannelAdapter { // (6)
+    // grepfa mqtt protocol producer
+    @Bean
+    fun mqttChannelAdapter(): MessageProducer {
         return MqttPahoMessageDrivenChannelAdapter(
             MqttClient.generateClientId(),
             mqttPahoClientFactory(),
-            "/#")
+            "/grepfa/+/device/+/event/+")
             .apply {
                 setConverter(DefaultPahoMessageConverter())
                 setQos(2)
+                outputChannel = mqttInputChannel()
             }
     }
+
+
+
 
 //    @Bean
 //    fun mqttOutboundFlow() = integrationFlow(MQTT_OUTBOUND_CHANNEL) { // (7)
