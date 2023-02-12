@@ -2,6 +2,7 @@ package com.grepfa.iot.grepfa.mqtt.grepfa.up
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import com.grepfa.iot.grepfa.OAuthHelper
 import com.grepfa.iot.grepfa.data.device.DeviceDto
 import com.grepfa.iot.grepfa.data.device.DeviceRepository
 import com.grepfa.iot.grepfa.mqtt.grepfa.TopicInfo
@@ -21,11 +22,13 @@ import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.bodyValueAndAwait
 import java.util.*
 
+
+
 @Component
-class UpForwarder(val repo: DeviceRepository, val om: ObjectMapper) {
+class UpForwarder(val repo: DeviceRepository, val om: ObjectMapper, val oauth: OAuthHelper) {
     private val logger = LoggerFactory.getLogger(javaClass)
 
-    private val upForwardURL = "http://115.31.121.170:80"
+    private val upForwardURL = "http://192.168.0.126:8080/iot/hook/up"
 
     @OptIn(DelicateCoroutinesApi::class)
     fun handle(topicString: TopicInfo, payload: String) {
@@ -53,6 +56,7 @@ class UpForwarder(val repo: DeviceRepository, val om: ObjectMapper) {
                 logger.info("start request")
                 val client = HttpClient(CIO)
                 val resp = client.post(upForwardURL) {
+                    header("Authorization", "Bearer " + oauth.accessToken())
                     contentType(ContentType.Application.Json)
                     setBody(retStr)
                 }
