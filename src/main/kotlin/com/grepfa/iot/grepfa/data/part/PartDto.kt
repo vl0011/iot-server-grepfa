@@ -37,7 +37,7 @@ class GetPartDto(part: Part) :Serializable {
     val id = part.id
     val name = part.name
     val type = part.type
-    val varType = part.type
+    val varType = part.varType
     val description = part.description
     val summary = part.summary
     val unit = part.unit
