@@ -31,6 +31,9 @@ dependencies {
     implementation("org.springframework.integration:spring-integration-mqtt")
     implementation("org.springframework.integration:spring-integration-jmx")
 
+    implementation("io.ktor:ktor-client-core:2.2.3")
+    implementation("io.ktor:ktor-client-cio:2.2.3")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
 }

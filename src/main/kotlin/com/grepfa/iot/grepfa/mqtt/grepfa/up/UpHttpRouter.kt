@@ -11,7 +11,12 @@ class UpHttpRouter {
     @Bean
     fun upEventRoute(handler: UpForwarder) = coRouter {
         "/event/up".nest {
-            GET("/example", handler::getUpPayloadExample)
+            "/example".nest {
+                GET("/payload", handler::getUpPayloadExample)
+                GET("/payload/{id}", handler::getUpPayloadExampleWithDeviceId)
+                GET("/raw", handler::getRawUpExample)
+                GET("/raw/{id}", handler::getUpRawExampleWithDeviceId)
+            }
         }
     }
 }
