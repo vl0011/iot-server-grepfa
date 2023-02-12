@@ -1,9 +1,5 @@
 package com.grepfa.iot.grepfa.mqtt.grepfa.up
 
-//import io.ktor.client.*
-//import io.ktor.client.engine.cio.*
-//import io.ktor.client.request.*
-//import io.ktor.http.*
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.grepfa.iot.grepfa.data.device.DeviceDto
