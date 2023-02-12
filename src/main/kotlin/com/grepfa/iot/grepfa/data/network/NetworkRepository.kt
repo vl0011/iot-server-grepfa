@@ -1,5 +1,6 @@
-package com.grepfa.iot.grepfa.network
+package com.grepfa.iot.grepfa.data.network
 
+import com.grepfa.iot.grepfa.network.Network
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 import java.util.UUID
