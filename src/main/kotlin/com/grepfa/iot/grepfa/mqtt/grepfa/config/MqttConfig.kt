@@ -1,6 +1,5 @@
 package com.grepfa.iot.grepfa.mqtt.grepfa.config
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.grepfa.iot.grepfa.mqtt.grepfa.topicParser
 import org.eclipse.paho.client.mqttv3.MqttClient
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions
@@ -8,19 +7,22 @@ import org.eclipse.paho.client.mqttv3.MqttMessage
 import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.integration.annotation.MessagingGateway
 import org.springframework.integration.annotation.Router
+import org.springframework.integration.annotation.ServiceActivator
+import org.springframework.integration.channel.DirectChannel
 import org.springframework.integration.channel.PublishSubscribeChannel
 import org.springframework.integration.core.MessageProducer
-import org.springframework.integration.dsl.StandardIntegrationFlow
-import org.springframework.integration.dsl.integrationFlow
 import org.springframework.integration.mqtt.core.DefaultMqttPahoClientFactory
 import org.springframework.integration.mqtt.core.MqttPahoClientFactory
 import org.springframework.integration.mqtt.inbound.MqttPahoMessageDrivenChannelAdapter
+import org.springframework.integration.mqtt.outbound.MqttPahoMessageHandler
 import org.springframework.integration.mqtt.support.DefaultPahoMessageConverter
 import org.springframework.integration.mqtt.support.MqttHeaders
 import org.springframework.messaging.Message
 import org.springframework.messaging.MessageChannel
-import org.springframework.stereotype.Component
+import org.springframework.messaging.MessageHandler
+import org.springframework.messaging.handler.annotation.Header
 
 
 @Configuration
@@ -76,41 +78,27 @@ class MqttConfig {
             }
     }
 
+    @Bean
+    fun mqttOutputChannel(): MessageChannel = DirectChannel()
+    @Bean
+    @ServiceActivator(inputChannel = "mqttOutputChannel")
+    fun mqttOutputChannelAdapter(): MessageHandler {
+        return MqttPahoMessageHandler(
+            "ssl://cs.grepfa.com",
+            MqttClient.generateClientId(),
+            mqttPahoClientFactory()
+            )
+    }
 
-
-
-//    @Bean
-//    fun mqttOutboundFlow() = integrationFlow(MQTT_OUTBOUND_CHANNEL) { // (7)
-//        transform<Any> { // (8)
-//            when (it) {
-//                is SampleMessage -> objectMapper.writeValueAsString(it)
-//                else -> it
-//            }
-//        }
-//        handle(mqttOutboundMessageHandler()) // (9)
-//    }
-//
-//    private fun mqttOutboundMessageHandler(): MessageHandler { // (10)
-//        return MqttPahoMessageHandler(MqttAsyncClient.generateClientId(), mqttPahoClientFactory())
-//            .apply {
-//                setAsync(true)
-//                setDefaultTopic(mqttProperties.topic)
-//                setDefaultQos(mqttProperties.qos)
-//            }
-//    }
-//
-//    @MessagingGateway(defaultRequestChannel = MQTT_OUTBOUND_CHANNEL)
-//    interface MqttOutboundGateway { // (11)
-//
-//        @Gateway
-//        fun publish(@Header(MqttHeaders.TOPIC) topic: String, data: String) // (12)
-//
-//        @Gateway
-//        fun publish(data: SampleMessage) // (13)
-//    }
 
     companion object {
         const val MQTT_OUTBOUND_CHANNEL = "outboundChannel"
     }
 
+
+}
+
+@MessagingGateway(defaultRequestChannel = "mqttOutputChannel")
+interface  OutboundGateway {
+    fun sendToMqtt(payload: String?, @Header(MqttHeaders.TOPIC) topic: String?)
 }

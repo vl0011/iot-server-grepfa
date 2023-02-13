@@ -28,10 +28,14 @@ import java.util.*
 class UpForwarder(val repo: DeviceRepository, val om: ObjectMapper, val oauth: OAuthHelper) {
     private val logger = LoggerFactory.getLogger(javaClass)
 
-    private val upForwardURL = "http://192.168.0.126:8080/iot/hook/up"
+    private val upForwardURL = "https:/api.grepfa.com/iot/hook/up"
 
     @OptIn(DelicateCoroutinesApi::class)
     fun handle(topicString: TopicInfo, payload: String) {
+
+        // TODO: 페이로도의 파츠id, 토픽과 페이로드의 네트워크 주소 검증 필요
+        // TODO: 페이로드에 디바이스 ID가 없어도 작동되게 수정 필요
+
         logger.info("up event forwarding")
         logger.info("topic: $topicString")
         logger.info("payload: $payload")

@@ -6,4 +6,5 @@ import java.util.UUID
 
 
 interface PartRepository:JpaRepository<Part, UUID> {
+
 }
